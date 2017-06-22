@@ -22,7 +22,7 @@ public class DetailActivity extends AppCompatActivity {
         TextView overviewTV = (TextView) findViewById(R.id.movie_detail_overview);
         ImageView posterImage = (ImageView) findViewById(R.id.movie_detail_poster);
 
-        Movie movie = getIntent().getParcelableExtra("movie");
+        Movie movie = getIntent().getParcelableExtra(MainActivity.MOVIE_EXTRA);
 
         Glide.with(this)
                 .asDrawable()

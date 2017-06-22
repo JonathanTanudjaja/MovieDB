@@ -14,6 +14,14 @@ import java.net.URL;
 
 public final class MovieDataUtils {
 
+    private static final String RESULT_PATH = "results";
+    private static final String ID_KEY = "id";
+    private static final String TITLE_KEY = "original_title";
+    private static final String POSTER_KEY = "poster_path";
+    private static final String SYNOPSIS_KEY = "overview";
+    private static final String RATE_KEY = "vote_average";
+    private static final String DATE_KEY = "release_date";
+
     public static Movie[] getMovieList(String sortBy) {
         int sortByIdx = 0;
 
@@ -36,17 +44,17 @@ public final class MovieDataUtils {
 
         JSONObject json = new JSONObject(movieJson);
 
-        JSONArray movieJsonArray = json.getJSONArray("results");
+        JSONArray movieJsonArray = json.getJSONArray(RESULT_PATH);
         Movie[] movieArray = new Movie[movieJsonArray.length()];
         for (int i = 0 ; i < movieJsonArray.length() ; i++) {
             JSONObject movieJsonObject = movieJsonArray.getJSONObject(i);
             movieArray[i] = new Movie(
-                    movieJsonObject.getString("id"),
-                    movieJsonObject.getString("original_title"),
-                    movieJsonObject.getString("poster_path"),
-                    movieJsonObject.getString("overview"),
-                    movieJsonObject.getString("vote_average"),
-                    movieJsonObject.getString("release_date")
+                    movieJsonObject.getString(ID_KEY),
+                    movieJsonObject.getString(TITLE_KEY),
+                    movieJsonObject.getString(POSTER_KEY),
+                    movieJsonObject.getString(SYNOPSIS_KEY),
+                    movieJsonObject.getString(RATE_KEY),
+                    movieJsonObject.getString(DATE_KEY)
             );
         }
         return movieArray;

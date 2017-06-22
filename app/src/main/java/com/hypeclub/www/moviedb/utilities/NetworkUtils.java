@@ -1,7 +1,6 @@
 package com.hypeclub.www.moviedb.utilities;
 
 import android.net.Uri;
-import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,8 +15,6 @@ import java.util.Scanner;
 
 public final class NetworkUtils {
 
-    private static final String TAG = NetworkUtils.class.getSimpleName();
-
     private static final String BASE_URI = "https://api.themoviedb.org/3/";
 
     private static final String POPULAR_MOVIE = "movie/popular";
@@ -25,6 +22,8 @@ public final class NetworkUtils {
     private static final String TOP_MOVIE = "movie/top_rated";
 
     private static final String MOVIE_POSTER_BASE_URI = "http://image.tmdb.org/t/p/w185/";
+
+    private static final String API_KEY_QUERY_PARAM = "api_key";
 
     public static String getMoviePosterBaseUri() {
         return MOVIE_POSTER_BASE_URI;
@@ -38,7 +37,7 @@ public final class NetworkUtils {
             builtUri = Uri.withAppendedPath(builtUri,POPULAR_MOVIE);
         }
 
-        builtUri = builtUri.buildUpon().appendQueryParameter("api_key",Preference.getApiKey()).build();
+        builtUri = builtUri.buildUpon().appendQueryParameter(API_KEY_QUERY_PARAM,Preference.getApiKey()).build();
 
         URL url = null;
 
@@ -48,16 +47,15 @@ public final class NetworkUtils {
             e.printStackTrace();
         }
 
-        Log.v(TAG,"Built URI " + url);
-
         return url;
     }
 
+    // from exercise in udacity.com
     static String getResponseFromHttpUrl(URL url) throws IOException {
-        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+        HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
 
         try {
-            InputStream inputStream = urlConnection.getInputStream();
+            InputStream inputStream = httpURLConnection.getInputStream();
 
             Scanner scanner = new Scanner(inputStream);
             scanner.useDelimiter("\\A");
@@ -70,7 +68,7 @@ public final class NetworkUtils {
                 return null;
             }
         } finally {
-            urlConnection.disconnect();
+            httpURLConnection.disconnect();
         }
     }
 }

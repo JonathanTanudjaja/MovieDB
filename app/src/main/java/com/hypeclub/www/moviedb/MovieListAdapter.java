@@ -15,12 +15,12 @@ import com.hypeclub.www.moviedb.utilities.NetworkUtils;
  * Created by Jo on 18-Jun-17.
  */
 
-public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieListHolder> {
+class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieListHolder> {
 
     private final MoviePosterOnClickListener clickListener;
     private Movie[] movieData;
 
-    public MovieListAdapter(MoviePosterOnClickListener movieOnClickListener) {
+    MovieListAdapter(MoviePosterOnClickListener movieOnClickListener) {
         this.clickListener = movieOnClickListener;
     }
 
@@ -49,11 +49,11 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         return 0;
     }
 
-    public interface MoviePosterOnClickListener {
+    interface MoviePosterOnClickListener {
         void onMovieClick(Movie movie);
     }
 
-    public class MovieListHolder extends RecyclerView.ViewHolder
+    class MovieListHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener{
 
         final ImageView poster;

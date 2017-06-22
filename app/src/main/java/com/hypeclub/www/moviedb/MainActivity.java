@@ -4,7 +4,6 @@ import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,16 +27,17 @@ public class MainActivity extends AppCompatActivity
     private ProgressBar mLoader;
     private TextView mErrMessage;
 
-    private static Parcelable rvState;
-    private static int position;
+    public static final String MOVIE_EXTRA = "movie";
+    public static final String POSITION_KEY = "positionkey";
+    public static final String SORT_BY_TAG = "sort_dialog";
+    private static int position = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState != null) {
-            rvState = savedInstanceState.getParcelable("test");
-            position = savedInstanceState.getInt("pos");
+            position = savedInstanceState.getInt(POSITION_KEY);
         }
 
         setContentView(R.layout.activity_main);
@@ -62,8 +62,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt("pos",((GridLayoutManager)movieListRV.getLayoutManager()).findFirstVisibleItemPosition());
-        outState.putParcelable("test",movieListRV.getLayoutManager().onSaveInstanceState());
+        outState.putInt(POSITION_KEY,((GridLayoutManager)movieListRV.getLayoutManager()).findFirstVisibleItemPosition());
         super.onSaveInstanceState(outState);
     }
 
@@ -71,10 +70,10 @@ public class MainActivity extends AppCompatActivity
     public void onMovieClick(Movie movie) {
         if (movie != null) {
             Intent goToDetail = new Intent(this,DetailActivity.class);
-            goToDetail.putExtra("movie",movie);
+            goToDetail.putExtra(MOVIE_EXTRA,movie);
             startActivity(goToDetail);
         } else {
-            Toast.makeText(this,"error",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,getString(R.string.error_message),Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -104,10 +103,8 @@ public class MainActivity extends AppCompatActivity
             if (movieData != null) {
                 movieListAdapter.setMovieData(movieData);
                 movieListRV.setVisibility(View.VISIBLE);
-                if(rvState != null) {
-                    movieListRV.getLayoutManager().onRestoreInstanceState(rvState);
-                    movieListRV.scrollToPosition(position);
-                }
+                movieListRV.scrollToPosition(position);
+                position = 0;
             } else {
                 mErrMessage.setVisibility(View.VISIBLE);
             }
@@ -124,7 +121,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.sort_action) {
             DialogFragment sortByDialog = new SortByDialogFragment();
-            sortByDialog.show(getFragmentManager(),"sortBy");
+            sortByDialog.show(getFragmentManager(),SORT_BY_TAG);
             return true;
         } else if (item.getItemId() == R.id.refresh_action) {
             loadData();
