@@ -1,4 +1,4 @@
-package com.hypeclub.www.moviedb.adapter;
+package com.hypeclub.www.moviedb;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.hypeclub.www.moviedb.R;
 import com.hypeclub.www.moviedb.model.Movie;
 import com.hypeclub.www.moviedb.utilities.NetworkUtils;
 

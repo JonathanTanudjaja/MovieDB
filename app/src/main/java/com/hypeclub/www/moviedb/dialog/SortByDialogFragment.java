@@ -15,7 +15,7 @@ import static com.hypeclub.www.moviedb.utilities.Preference.sortBy;
 
 public class SortByDialogFragment extends DialogFragment {
 
-    SortByListener mListener;
+    private SortByListener mListener;
 
     @Override
     public void onAttach(Context context) {
@@ -25,7 +25,7 @@ public class SortByDialogFragment extends DialogFragment {
     }
 
     public interface SortByListener {
-        public void sort(int which);
+        void sort(int which);
     }
 
     @Override

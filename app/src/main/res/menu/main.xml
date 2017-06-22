@@ -4,6 +4,11 @@
     <item
         android:id="@+id/sort_action"
         android:icon="@drawable/ic_sort_white_24dp"
-        android:title="Sort"
+        android:title="@string/action_sort"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/refresh_action"
+        android:icon="@drawable/ic_refresh_white_24dp"
+        android:title="@string/action_refresh"
         app:showAsAction="ifRoom" />
 </menu>

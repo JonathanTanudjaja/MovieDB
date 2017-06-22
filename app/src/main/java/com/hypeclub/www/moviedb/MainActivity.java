@@ -15,7 +15,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hypeclub.www.moviedb.adapter.MovieListAdapter;
 import com.hypeclub.www.moviedb.dialog.SortByDialogFragment;
 import com.hypeclub.www.moviedb.model.Movie;
 import com.hypeclub.www.moviedb.utilities.MovieDataUtils;
@@ -24,13 +23,13 @@ import com.hypeclub.www.moviedb.utilities.Preference;
 public class MainActivity extends AppCompatActivity
         implements MovieListAdapter.MoviePosterOnClickListener, SortByDialogFragment.SortByListener{
 
-    static MovieListAdapter movieListAdapter;
-    RecyclerView movieListRV;
-    ProgressBar mLoader;
-    TextView mErrMessage;
+    private static MovieListAdapter movieListAdapter;
+    private RecyclerView movieListRV;
+    private ProgressBar mLoader;
+    private TextView mErrMessage;
 
     private static Parcelable rvState;
-    public static int position;
+    private static int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +57,7 @@ public class MainActivity extends AppCompatActivity
         movieListAdapter = new MovieListAdapter(this);
         movieListRV.setAdapter(movieListAdapter);
 
-        loadData(0);
+        loadData();
     }
 
     @Override
@@ -79,16 +78,17 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void loadData(int sortIndex) {
+    private void loadData() {
         movieListRV.setVisibility(View.INVISIBLE);
         mErrMessage.setVisibility(View.INVISIBLE);
         mLoader.setVisibility(View.VISIBLE);
-        new FetchMovieTask().execute(Preference.sortBy[sortIndex]);
+        new FetchMovieTask().execute(Preference.sortBy[Preference.sortByIndex]);
     }
 
     @Override
     public void sort(int which) {
-        loadData(which);
+        Preference.sortByIndex = which;
+        loadData();
     }
 
     private class FetchMovieTask extends AsyncTask<String, Void, Movie[]> {
@@ -125,6 +125,9 @@ public class MainActivity extends AppCompatActivity
         if (item.getItemId() == R.id.sort_action) {
             DialogFragment sortByDialog = new SortByDialogFragment();
             sortByDialog.show(getFragmentManager(),"sortBy");
+            return true;
+        } else if (item.getItemId() == R.id.refresh_action) {
+            loadData();
             return true;
         }
         return super.onOptionsItemSelected(item);

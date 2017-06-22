@@ -11,8 +11,10 @@ public final class Preference {
             "top rated"
     };
 
+    public static int sortByIndex = 0;
+
     // TODO: declare API_KEY here
-    private static final String API_KEY = "xxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+    private static final String API_KEY = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
 
     public static String getApiKey() {
         return API_KEY;

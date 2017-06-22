@@ -9,12 +9,12 @@ import android.os.Parcelable;
 
 public class Movie implements Parcelable {
 
-    String id;
-    String title;
-    String posterPath;
-    String overview;
-    String vote_avg;
-    String release_date;
+    private String id;
+    private String title;
+    private String posterPath;
+    private String overview;
+    private String vote_avg;
+    private String release_date;
 
     public Movie(String id, String title, String posterPath, String overview, String vote_avg, String release_date) {
         this.id = id;
@@ -25,7 +25,7 @@ public class Movie implements Parcelable {
         this.release_date = release_date;
     }
 
-    protected Movie(Parcel in) {
+    private Movie(Parcel in) {
         id = in.readString();
         title = in.readString();
         posterPath = in.readString();
@@ -46,52 +46,24 @@ public class Movie implements Parcelable {
         }
     };
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getTitle() {
         return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getPosterPath() {
         return posterPath;
     }
 
-    public void setPosterPath(String posterPath) {
-        this.posterPath = posterPath;
-    }
-
     public String getOverview() {
         return overview;
-    }
-
-    public void setOverview(String overview) {
-        this.overview = overview;
     }
 
     public String getVote_avg() {
         return vote_avg;
     }
 
-    public void setVote_avg(String vote_avg) {
-        this.vote_avg = vote_avg;
-    }
-
     public String getRelease_date() {
         return release_date;
-    }
-
-    public void setRelease_date(String release_date) {
-        this.release_date = release_date;
     }
 
     @Override

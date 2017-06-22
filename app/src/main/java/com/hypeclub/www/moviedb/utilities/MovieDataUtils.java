@@ -1,6 +1,5 @@
 package com.hypeclub.www.moviedb.utilities;
 
-import com.hypeclub.www.moviedb.MainActivity;
 import com.hypeclub.www.moviedb.model.Movie;
 
 import org.json.JSONArray;

@@ -30,7 +30,7 @@ public final class NetworkUtils {
         return MOVIE_POSTER_BASE_URI;
     }
 
-    public static URL buildMovieListUrl(int sortBy) {
+    static URL buildMovieListUrl(int sortBy) {
         Uri builtUri = Uri.parse(BASE_URI);
         if (sortBy == 1) {
             builtUri = Uri.withAppendedPath(builtUri,TOP_MOVIE);
@@ -53,7 +53,7 @@ public final class NetworkUtils {
         return url;
     }
 
-    public static String getResponseFromHttpUrl(URL url) throws IOException {
+    static String getResponseFromHttpUrl(URL url) throws IOException {
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
         try {
