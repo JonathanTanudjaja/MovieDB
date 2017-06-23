@@ -9,18 +9,22 @@ import com.bumptech.glide.Glide;
 import com.hypeclub.www.moviedb.model.Movie;
 import com.hypeclub.www.moviedb.utilities.NetworkUtils;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class DetailActivity extends AppCompatActivity {
+
+    @BindView(R.id.movie_detail_poster) ImageView posterImage;
+    @BindView(R.id.movie_detail_title) TextView titleTV;
+    @BindView(R.id.movie_detail_rating) TextView ratingTV;
+    @BindView(R.id.movie_detail_release) TextView releaseTV;
+    @BindView(R.id.movie_detail_overview) TextView overviewTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-
-        TextView titleTV = (TextView) findViewById(R.id.movie_detail_Title);
-        TextView ratingTV = (TextView) findViewById(R.id.movie_detail_rating);
-        TextView releaseTV = (TextView) findViewById(R.id.movie_detail_release);
-        TextView overviewTV = (TextView) findViewById(R.id.movie_detail_overview);
-        ImageView posterImage = (ImageView) findViewById(R.id.movie_detail_poster);
+        ButterKnife.bind(this);
 
         Movie movie = getIntent().getParcelableExtra(MainActivity.MOVIE_EXTRA);
 

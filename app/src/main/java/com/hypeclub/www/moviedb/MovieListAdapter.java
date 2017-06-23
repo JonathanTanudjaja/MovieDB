@@ -11,6 +11,9 @@ import com.bumptech.glide.Glide;
 import com.hypeclub.www.moviedb.model.Movie;
 import com.hypeclub.www.moviedb.utilities.NetworkUtils;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by Jo on 18-Jun-17.
  */
@@ -56,11 +59,11 @@ class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieListHo
     class MovieListHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener{
 
-        final ImageView poster;
+        @BindView(R.id.movie_poster) ImageView poster;
 
         MovieListHolder(View itemView) {
             super(itemView);
-            poster = (ImageView) itemView.findViewById(R.id.movie_poster);
+            ButterKnife.bind(this,itemView);
             itemView.setOnClickListener(this);
         }
 
@@ -71,7 +74,7 @@ class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieListHo
         }
     }
 
-    public void setMovieData(Movie[] movieData) {
+    void setMovieData(Movie[] movieData) {
         this.movieData = movieData;
         notifyDataSetChanged();
     }
