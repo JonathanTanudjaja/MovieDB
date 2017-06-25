@@ -1,9 +1,13 @@
 <resources>
     <string name="app_name">MovieDB</string>
-    <string name="failed_fetch">Failed to get movie list. Please try again later</string>
+    <string name="failed_fetch">Failed to get movie list.\nPlease try again later</string>
     <string name="error_message">Error occurred, try again later</string>
     <string name="action_sort">Sort</string>
     <string name="movie_poster_desc">Movie Poster</string>
     <string name="action_refresh">Refresh</string>
     <string name="SORT_BY_TITLE">Sort by</string>
+    <string name="action_settings">Settings</string>
+    <string name="rating_label">Rating :</string>
+    <string name="release_date_label">Release Date :</string>
+    <string name="synopsis_label">Synopsis :</string>
 </resources>

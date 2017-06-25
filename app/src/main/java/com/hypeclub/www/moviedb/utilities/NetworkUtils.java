@@ -23,12 +23,17 @@ public final class NetworkUtils {
 
     private static final String MOVIE_POSTER_BASE_URI = "http://image.tmdb.org/t/p/w185/";
 
+    private static final String LARGE_MOVIE_POSTER_BASE_URI = "http://image.tmdb.org/t/p/w500/";
+
     private static final String API_KEY_QUERY_PARAM = "api_key";
 
     public static String getMoviePosterBaseUri() {
         return MOVIE_POSTER_BASE_URI;
     }
 
+    public static String getLargeMoviePosterBaseUri() {
+        return LARGE_MOVIE_POSTER_BASE_URI;
+    }
     static URL buildMovieListUrl(int sortBy) {
         Uri builtUri = Uri.parse(BASE_URI);
         if (sortBy == 1) {

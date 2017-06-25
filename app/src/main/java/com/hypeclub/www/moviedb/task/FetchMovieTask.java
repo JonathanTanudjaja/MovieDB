@@ -1,7 +1,6 @@
 package com.hypeclub.www.moviedb.task;
 
 import android.os.AsyncTask;
-import android.view.View;
 
 import com.hypeclub.www.moviedb.model.Movie;
 import com.hypeclub.www.moviedb.utilities.MovieDataUtils;

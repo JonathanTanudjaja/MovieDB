@@ -12,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hypeclub.www.moviedb.dialog.SortByDialogFragment;
@@ -31,7 +30,6 @@ public class MainActivity extends AppCompatActivity
         FetchMovieTask.OnTaskCompleted{
 
     @BindView(R.id.movie_list_rv) RecyclerView movieListRV;
-    @BindView(R.id.err_message_tv) TextView mErrMessage;
     @BindViews({R.id.rv_refresh_layout, R.id.empty_refresh_layout}) List<SwipeRefreshLayout> mSwipeRefreshLayout;
 
     ButterKnife.Action<SwipeRefreshLayout> SET_ON_REFRESH;
