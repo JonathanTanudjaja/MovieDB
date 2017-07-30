@@ -21,11 +21,18 @@ public final class NetworkUtils {
 
     private static final String TOP_MOVIE = "movie/top_rated";
 
+    private static final String MOVIE = "movie";
+
+    private static final String REVIEW = "reviews";
+    private static final String VIDEO = "videos";
+
     private static final String MOVIE_POSTER_BASE_URI = "http://image.tmdb.org/t/p/w185/";
 
     private static final String LARGE_MOVIE_POSTER_BASE_URI = "http://image.tmdb.org/t/p/w500/";
 
     private static final String API_KEY_QUERY_PARAM = "api_key";
+
+    private static final String YOUTUBE_VIDEO_BASE_URL = "https://www.youtube.com/watch?v=";
 
     public static String getMoviePosterBaseUri() {
         return MOVIE_POSTER_BASE_URI;
@@ -34,6 +41,50 @@ public final class NetworkUtils {
     public static String getLargeMoviePosterBaseUri() {
         return LARGE_MOVIE_POSTER_BASE_URI;
     }
+
+    public static String buildYoutubeVideoUrl(String key) {
+        return YOUTUBE_VIDEO_BASE_URL + key;
+    }
+
+    private static Uri buildMovieUri(String movieID) {
+        Uri builtUri = Uri.parse(BASE_URI);
+        builtUri = Uri.withAppendedPath(builtUri,MOVIE);
+        builtUri = Uri.withAppendedPath(builtUri, movieID);
+        return builtUri;
+    }
+
+    static URL buildMovieReviewUrl (String movieID) {
+        Uri builtUri = buildMovieUri(movieID);
+        builtUri = builtUri.buildUpon().appendQueryParameter(API_KEY_QUERY_PARAM,Preference.getApiKey())
+                .appendPath(REVIEW).build();
+
+        URL url = null;
+
+        try {
+            url = new URL(builtUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        return url;
+    }
+
+    static URL buildMovieVideosUrl (String movieID) {
+        Uri builtUri = buildMovieUri(movieID);
+        builtUri = builtUri.buildUpon().appendQueryParameter(API_KEY_QUERY_PARAM,Preference.getApiKey())
+                .appendPath(VIDEO).build();
+
+        URL url = null;
+
+        try {
+            url = new URL(builtUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        return url;
+    }
+
     static URL buildMovieListUrl(int sortBy) {
         Uri builtUri = Uri.parse(BASE_URI);
         if (sortBy == 1) {

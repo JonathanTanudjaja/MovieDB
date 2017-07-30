@@ -1,4 +1,4 @@
-package com.hypeclub.www.moviedb;
+package com.hypeclub.www.moviedb.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.hypeclub.www.moviedb.R;
 import com.hypeclub.www.moviedb.model.Movie;
 import com.hypeclub.www.moviedb.utilities.NetworkUtils;
 
@@ -18,12 +19,12 @@ import butterknife.ButterKnife;
  * Created by Jo on 18-Jun-17.
  */
 
-class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieListHolder> {
+public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieListHolder> {
 
     private final MoviePosterOnClickListener clickListener;
     private Movie[] movieData;
 
-    MovieListAdapter(MoviePosterOnClickListener movieOnClickListener) {
+    public MovieListAdapter(MoviePosterOnClickListener movieOnClickListener) {
         this.clickListener = movieOnClickListener;
     }
 
@@ -52,7 +53,7 @@ class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieListHo
         return 0;
     }
 
-    interface MoviePosterOnClickListener {
+    public interface MoviePosterOnClickListener {
         void onMovieClick(Movie movie);
     }
 
@@ -74,7 +75,7 @@ class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieListHo
         }
     }
 
-    void setMovieData(Movie[] movieData) {
+    public void setMovieData(Movie[] movieData) {
         this.movieData = movieData;
         notifyDataSetChanged();
     }
