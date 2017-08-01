@@ -10,6 +10,8 @@ import android.widget.TextView;
 import com.hypeclub.www.moviedb.R;
 import com.hypeclub.www.moviedb.model.MovieVideo;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -20,7 +22,7 @@ import butterknife.ButterKnife;
 public class MovieVideoAdapter extends RecyclerView.Adapter<MovieVideoAdapter.MovieVideoHolder> {
 
     private final MovieVideoOnClickListener clickListener;
-    private MovieVideo[] movieVideo;
+    private ArrayList<MovieVideo> movieVideo;
 
     public MovieVideoAdapter(MovieVideoOnClickListener videoOnClickListener) {
         this.clickListener = videoOnClickListener;
@@ -36,13 +38,13 @@ public class MovieVideoAdapter extends RecyclerView.Adapter<MovieVideoAdapter.Mo
 
     @Override
     public void onBindViewHolder(MovieVideoHolder holder, int position) {
-        holder.videoName.setText(movieVideo[position].getName());
+        holder.videoName.setText(movieVideo.get(position).getName());
     }
 
     @Override
     public int getItemCount() {
         if (movieVideo != null) {
-            return movieVideo.length;
+            return movieVideo.size();
         }
         return 0;
     }
@@ -65,11 +67,11 @@ public class MovieVideoAdapter extends RecyclerView.Adapter<MovieVideoAdapter.Mo
         @Override
         public void onClick(View v) {
             int position = getAdapterPosition();
-            clickListener.onVideoClick(movieVideo[position]);
+            clickListener.onVideoClick(movieVideo.get(position));
         }
     }
 
-    public void setMovieVideo(MovieVideo[] movieVideo) {
+    public void setMovieVideo(ArrayList<MovieVideo> movieVideo) {
         this.movieVideo = movieVideo;
         notifyDataSetChanged();
     }

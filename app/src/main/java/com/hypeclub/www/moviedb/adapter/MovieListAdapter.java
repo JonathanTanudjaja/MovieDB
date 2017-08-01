@@ -12,6 +12,8 @@ import com.hypeclub.www.moviedb.R;
 import com.hypeclub.www.moviedb.model.Movie;
 import com.hypeclub.www.moviedb.utilities.NetworkUtils;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -22,7 +24,7 @@ import butterknife.ButterKnife;
 public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieListHolder> {
 
     private final MoviePosterOnClickListener clickListener;
-    private Movie[] movieData;
+    private ArrayList<Movie> movieData;
 
     public MovieListAdapter(MoviePosterOnClickListener movieOnClickListener) {
         this.clickListener = movieOnClickListener;
@@ -38,7 +40,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 
     @Override
     public void onBindViewHolder(MovieListHolder holder, int position) {
-        String posterPath = NetworkUtils.getMoviePosterBaseUri() + movieData[position].getPosterPath();
+        String posterPath = NetworkUtils.getMoviePosterBaseUri() + movieData.get(position).getPosterPath();
         Glide.with(holder.poster.getContext())
                 .asDrawable()
                 .load(posterPath)
@@ -48,7 +50,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
     @Override
     public int getItemCount() {
         if (movieData != null) {
-            return movieData.length;
+            return movieData.size();
         }
         return 0;
     }
@@ -71,11 +73,11 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         @Override
         public void onClick(View v) {
             int position = getAdapterPosition();
-            clickListener.onMovieClick(movieData[position]);
+            clickListener.onMovieClick(movieData.get(position));
         }
     }
 
-    public void setMovieData(Movie[] movieData) {
+    public void setMovieData(ArrayList<Movie> movieData) {
         this.movieData = movieData;
         notifyDataSetChanged();
     }

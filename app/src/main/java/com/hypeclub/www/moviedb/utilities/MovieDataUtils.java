@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URL;
+import java.util.ArrayList;
 
 /**
  * Created by Jo on 18-Jun-17.
@@ -28,10 +29,10 @@ public final class MovieDataUtils {
     private static final String AUTHOR_KEY = "author";
     private static final String CONTENT_KEY = "content";
 
-    public static final String VIDEO_NAME = "name";
-    public static final String VIDEO_KEY = "key";
+    private static final String VIDEO_NAME = "name";
+    private static final String VIDEO_KEY = "key";
 
-    public static Movie[] getMovieList(String sortBy) {
+    public static ArrayList<Movie> getMovieList(String sortBy) {
         int sortByIdx = 0;
 
         if (sortBy.equals(Preference.sortBy[1])) {
@@ -49,7 +50,7 @@ public final class MovieDataUtils {
         }
     }
 
-    public static Review[] getMovieReview(String movieID) {
+    public static ArrayList<Review> getMovieReview(String movieID) {
         URL api = NetworkUtils.buildMovieReviewUrl(movieID);
 
         try {
@@ -61,7 +62,7 @@ public final class MovieDataUtils {
         }
     }
 
-    public static MovieVideo[] getMovieVideo(String movieID) {
+    public static ArrayList<MovieVideo> getMovieVideo(String movieID) {
         URL api = NetworkUtils.buildMovieVideosUrl(movieID);
 
         try {
@@ -73,53 +74,53 @@ public final class MovieDataUtils {
         }
     }
 
-    private static MovieVideo[] getMovieVideoArrayFromJson(String videoJson) throws JSONException {
+    private static ArrayList<MovieVideo> getMovieVideoArrayFromJson(String videoJson) throws JSONException {
         JSONObject json = new JSONObject(videoJson);
 
         JSONArray videoJsonArray = json.getJSONArray(RESULT_PATH);
-        MovieVideo[] videoArray = new MovieVideo[videoJsonArray.length()];
+        ArrayList<MovieVideo> videoArray = new ArrayList<>();
         for (int i = 0 ; i < videoJsonArray.length() ; i++) {
             JSONObject videoJsonObject = videoJsonArray.getJSONObject(i);
-            videoArray [i] = new MovieVideo(
+            videoArray.add(new MovieVideo(
                     videoJsonObject.getString(VIDEO_NAME),
                     videoJsonObject.getString(VIDEO_KEY)
-            );
+            ));
         }
         return videoArray;
     }
 
-    private static Review[] getMovieReviewArrayFromJson(String reviewJson) throws JSONException {
+    private static ArrayList<Review> getMovieReviewArrayFromJson(String reviewJson) throws JSONException {
         JSONObject json = new JSONObject(reviewJson);
 
         JSONArray reviewJsonArray = json.getJSONArray(RESULT_PATH);
-        Review[] reviewArray = new Review[reviewJsonArray.length()];
+        ArrayList<Review> reviewArray = new ArrayList<>();
         for (int i = 0 ; i < reviewJsonArray.length() ; i++) {
             JSONObject reviewJsonObject = reviewJsonArray.getJSONObject(i);
-            reviewArray[i] = new Review(
+            reviewArray.add(new Review(
                     reviewJsonObject.getString(ID_KEY),
                     reviewJsonObject.getString(AUTHOR_KEY),
                     reviewJsonObject.getString(CONTENT_KEY)
-            );
+            ));
         }
         return reviewArray;
     }
 
-    private static Movie[] getMovieArrayFromJson(String movieJson) throws JSONException {
+    private static ArrayList<Movie> getMovieArrayFromJson(String movieJson) throws JSONException {
 
         JSONObject json = new JSONObject(movieJson);
 
         JSONArray movieJsonArray = json.getJSONArray(RESULT_PATH);
-        Movie[] movieArray = new Movie[movieJsonArray.length()];
+        ArrayList<Movie> movieArray = new ArrayList<>();
         for (int i = 0 ; i < movieJsonArray.length() ; i++) {
             JSONObject movieJsonObject = movieJsonArray.getJSONObject(i);
-            movieArray[i] = new Movie(
+            movieArray.add(new Movie(
                     movieJsonObject.getString(ID_KEY),
                     movieJsonObject.getString(TITLE_KEY),
                     movieJsonObject.getString(POSTER_KEY),
                     movieJsonObject.getString(SYNOPSIS_KEY),
                     movieJsonObject.getString(RATE_KEY),
                     movieJsonObject.getString(DATE_KEY)
-            );
+            ));
         }
         return movieArray;
     }

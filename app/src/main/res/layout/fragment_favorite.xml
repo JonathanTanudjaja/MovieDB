@@ -6,9 +6,16 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/no_favorite_tv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:text="No favorite movie yet" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/favorite_movie_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible" />
 
 </FrameLayout>

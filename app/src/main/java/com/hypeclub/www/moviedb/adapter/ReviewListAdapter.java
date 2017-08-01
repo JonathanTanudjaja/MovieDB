@@ -10,6 +10,8 @@ import android.widget.TextView;
 import com.hypeclub.www.moviedb.R;
 import com.hypeclub.www.moviedb.model.Review;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -19,7 +21,7 @@ import butterknife.ButterKnife;
 
 public class ReviewListAdapter extends RecyclerView.Adapter<ReviewListAdapter.ReviewHolder>{
 
-    private Review[] reviewData;
+    private ArrayList<Review> reviewData;
 
     @Override
     public ReviewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -31,14 +33,14 @@ public class ReviewListAdapter extends RecyclerView.Adapter<ReviewListAdapter.Re
 
     @Override
     public void onBindViewHolder(ReviewHolder holder, int position) {
-        holder.author.setText(reviewData[position].getAuthor());
-        holder.content.setText(reviewData[position].getContent());
+        holder.author.setText(reviewData.get(position).getAuthor());
+        holder.content.setText(reviewData.get(position).getContent());
     }
 
     @Override
     public int getItemCount() {
         if (reviewData != null) {
-            return reviewData.length;
+            return reviewData.size();
         }
         return 0;
     }
@@ -54,7 +56,7 @@ public class ReviewListAdapter extends RecyclerView.Adapter<ReviewListAdapter.Re
         }
     }
 
-    public void setReviewData(Review[] reviewData) {
+    public void setReviewData(ArrayList<Review> reviewData) {
         this.reviewData = reviewData;
         notifyDataSetChanged();
     }

@@ -25,6 +25,7 @@ import com.hypeclub.www.moviedb.model.Movie;
 import com.hypeclub.www.moviedb.task.FetchMovieTask;
 import com.hypeclub.www.moviedb.utilities.Preference;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -156,7 +157,7 @@ public class ExploreFragment extends Fragment
     }
 
     @Override
-    public void onFetchMovieCompleted(Movie[] movies) {
+    public void onFetchMovieCompleted(ArrayList<Movie> movies) {
         ButterKnife.apply(mSwipeRefreshLayout,SET_REFRESHING, new boolean[]{false, false});
         if (movies != null) {
             ButterKnife.apply(mSwipeRefreshLayout,SET_VISIBILITY, new int[]{View.VISIBLE, View.INVISIBLE});

@@ -5,11 +5,13 @@ import android.os.AsyncTask;
 import com.hypeclub.www.moviedb.model.MovieVideo;
 import com.hypeclub.www.moviedb.utilities.MovieDataUtils;
 
+import java.util.ArrayList;
+
 /**
  * Created by Jo on 30-Jul-17.
  */
 
-public class FetchMovieVideoTask extends AsyncTask<String, Void, MovieVideo[]> {
+public class FetchMovieVideoTask extends AsyncTask<String, Void, ArrayList<MovieVideo>> {
 
     private FetchMovieVideoTask.OnTaskCompleted listener;
 
@@ -18,16 +20,16 @@ public class FetchMovieVideoTask extends AsyncTask<String, Void, MovieVideo[]> {
     }
 
     public interface OnTaskCompleted{
-        void onFetchMovieVideoCompleted(MovieVideo[] movieVideos);
+        void onFetchMovieVideoCompleted(ArrayList<MovieVideo> movieVideos);
     }
 
     @Override
-    protected MovieVideo[] doInBackground(String... params) {
+    protected ArrayList<MovieVideo> doInBackground(String... params) {
         return MovieDataUtils.getMovieVideo(params[0]);
     }
 
     @Override
-    protected void onPostExecute(MovieVideo[] movieVideos) {
+    protected void onPostExecute(ArrayList<MovieVideo> movieVideos) {
         listener.onFetchMovieVideoCompleted(movieVideos);
     }
 }
