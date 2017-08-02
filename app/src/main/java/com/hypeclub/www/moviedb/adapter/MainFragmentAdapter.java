@@ -1,6 +1,5 @@
 package com.hypeclub.www.moviedb.adapter;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -22,11 +21,9 @@ public class MainFragmentAdapter extends FragmentPagerAdapter {
             ExploreFragment.newInstance(),
             FavoriteFragment.newInstance()
     };
-    private Context context;
 
-    public MainFragmentAdapter(FragmentManager fm, Context context) {
+    public MainFragmentAdapter(FragmentManager fm) {
         super(fm);
-        this.context = context;
     }
 
     @Override

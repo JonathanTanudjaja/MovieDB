@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="No favorite movie yet" />
+        android:textSize="@dimen/nothing_text"
+        android:text="@string/no_favorite_movie_text" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/favorite_movie_rv"

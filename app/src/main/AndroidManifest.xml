@@ -31,7 +31,7 @@
 
         <provider
             android:name=".data.FavoriteMovieProvider"
-            android:authorities="com.hypeclub.www.moviedb"
+            android:authorities="@string/authorities"
             android:exported="false"/>
     </application>
 

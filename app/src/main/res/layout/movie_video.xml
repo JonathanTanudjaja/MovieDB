@@ -8,10 +8,10 @@
         android:id="@+id/video_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:paddingTop="20dp"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:paddingBottom="20dp"
+        android:textSize="@dimen/detail_content_text"
+        android:paddingTop="@dimen/movie_link_vertical_padding"
+        android:paddingStart="@dimen/movie_link_horizontal_padding"
+        android:paddingEnd="@dimen/movie_link_horizontal_padding"
+        android:paddingBottom="@dimen/movie_link_vertical_padding"
         android:textColor="@color/colorAccent"/>
 </LinearLayout>

@@ -12,7 +12,7 @@ import com.hypeclub.www.moviedb.data.FavoriteMoviesContract.FavoriteMovieEntry;
 public class FavoriteMovieDbHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "FavoriteMovie.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     public FavoriteMovieDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -26,7 +26,10 @@ public class FavoriteMovieDbHelper extends SQLiteOpenHelper {
                 FavoriteMovieEntry._ID + " INTEGER PRIMARY KEY, " +
                 FavoriteMovieEntry.COLUMN_MOVIE_ID + " INTEGER, " +
                 FavoriteMovieEntry.COLUMN_MOVIE_TITLE + " TEXT, " +
-                FavoriteMovieEntry.COLUMN_MOVIE_POSTER_PATH + " TEXT )";
+                FavoriteMovieEntry.COLUMN_MOVIE_AVERAGE_VOTE + " TEXT, " +
+                FavoriteMovieEntry.COLUMN_MOVIE_RELEASE_DATE + " TEXT, " +
+                FavoriteMovieEntry.COLUMN_MOVIE_POSTER_PATH + " TEXT, " +
+                FavoriteMovieEntry.COLUMN_MOVIE_OVERVIEW + " TEXT )";
 
         db.execSQL(SQL_CREATE_FAVORITE_MOVIE_TABLE);
     }

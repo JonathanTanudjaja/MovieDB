@@ -6,12 +6,9 @@ import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
-import com.hypeclub.www.moviedb.data.FavoriteMovieDbHelper;
 
 /**
  * Created by Jo on 01-Aug-17.
@@ -21,8 +18,6 @@ public class FavoriteMovieProvider extends ContentProvider {
 
     public static final int CODE_FAVORITE_MOVIE = 200;
     public static final int CODE_FAVORITE_MOVIE_WITH_MOVIEID = 202;
-
-    SQLiteDatabase db;
 
     public static final UriMatcher URI_MATCHER = buildUriMatcher();
 

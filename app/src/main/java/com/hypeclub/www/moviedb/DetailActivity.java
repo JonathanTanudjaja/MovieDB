@@ -3,10 +3,8 @@ package com.hypeclub.www.moviedb;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.DropBoxManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
@@ -21,7 +19,6 @@ import com.bumptech.glide.Glide;
 import com.hypeclub.www.moviedb.adapter.MovieVideoAdapter;
 import com.hypeclub.www.moviedb.adapter.ReviewListAdapter;
 import com.hypeclub.www.moviedb.data.FavoriteMovieDbHelper;
-import com.hypeclub.www.moviedb.data.FavoriteMovieProvider;
 import com.hypeclub.www.moviedb.data.FavoriteMoviesContract;
 import com.hypeclub.www.moviedb.model.Movie;
 import com.hypeclub.www.moviedb.model.MovieVideo;
@@ -47,6 +44,7 @@ public class DetailActivity extends AppCompatActivity
     @BindView(R.id.movie_detail_release) TextView releaseTV;
     @BindView(R.id.movie_detail_overview) TextView overviewTV;
     @BindView(R.id.no_review) TextView noReview;
+    @BindView(R.id.no_videos) TextView noVideo;
     @BindView(R.id.review_rv) RecyclerView reviewRV;
     @BindView(R.id.video_rv) RecyclerView videoRV;
     @BindView(R.id.toolbar) Toolbar toolbar;
@@ -138,7 +136,7 @@ public class DetailActivity extends AppCompatActivity
     @Override
     public void onFetchMovieReviewCompleted(ArrayList<Review> reviews) {
         reviewAdapter.setReviewData(reviews);
-        if (reviews.size() == 0) {
+        if (null == reviews || reviews.isEmpty()) {
             noReview.setText("We don't have any reviews for "+movie.getTitle()+".");
         }
     }
@@ -146,8 +144,8 @@ public class DetailActivity extends AppCompatActivity
     @Override
     public void onFetchMovieVideoCompleted(ArrayList<MovieVideo> movieVideos) {
         movieVideoAdapter.setMovieVideo(movieVideos);
-        if (movieVideos.size() == 0) {
-            noReview.setText("We don't have any videos for "+movie.getTitle()+".");
+        if (null == movieVideos || movieVideos.isEmpty()) {
+            noVideo.setText("We don't have any videos for "+movie.getTitle()+".");
         }
     }
 
@@ -181,6 +179,9 @@ public class DetailActivity extends AppCompatActivity
         values.put(FavoriteMoviesContract.FavoriteMovieEntry.COLUMN_MOVIE_ID,movie.getId());
         values.put(FavoriteMoviesContract.FavoriteMovieEntry.COLUMN_MOVIE_TITLE,movie.getTitle());
         values.put(FavoriteMoviesContract.FavoriteMovieEntry.COLUMN_MOVIE_POSTER_PATH,movie.getPosterPath());
+        values.put(FavoriteMoviesContract.FavoriteMovieEntry.COLUMN_MOVIE_AVERAGE_VOTE,movie.getVote_avg());
+        values.put(FavoriteMoviesContract.FavoriteMovieEntry.COLUMN_MOVIE_RELEASE_DATE,movie.getRelease_date());
+        values.put(FavoriteMoviesContract.FavoriteMovieEntry.COLUMN_MOVIE_OVERVIEW,movie.getOverview());
 
         getContentResolver().insert(
                 FavoriteMoviesContract.FavoriteMovieEntry.CONTENT_URI,

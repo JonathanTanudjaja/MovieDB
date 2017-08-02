@@ -18,9 +18,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.hypeclub.www.moviedb.DetailActivity;
-import com.hypeclub.www.moviedb.adapter.MovieListAdapter;
 import com.hypeclub.www.moviedb.R;
-import com.hypeclub.www.moviedb.dialog.SortByDialogFragment;
+import com.hypeclub.www.moviedb.adapter.MovieListAdapter;
 import com.hypeclub.www.moviedb.model.Movie;
 import com.hypeclub.www.moviedb.task.FetchMovieTask;
 import com.hypeclub.www.moviedb.utilities.Preference;
@@ -33,7 +32,6 @@ import butterknife.BindViews;
 import butterknife.ButterKnife;
 
 import static com.hypeclub.www.moviedb.MainActivity.MOVIE_EXTRA;
-import static com.hypeclub.www.moviedb.MainActivity.POSITION_KEY;
 
 
 /**
@@ -43,7 +41,6 @@ import static com.hypeclub.www.moviedb.MainActivity.POSITION_KEY;
  */
 public class ExploreFragment extends Fragment
         implements MovieListAdapter.MoviePosterOnClickListener,
-        SortByDialogFragment.SortByListener,
         FetchMovieTask.OnTaskCompleted,
         AdapterView.OnItemSelectedListener  {
 
@@ -55,8 +52,12 @@ public class ExploreFragment extends Fragment
     ButterKnife.Setter<SwipeRefreshLayout,int[]> SET_VISIBILITY;
     ButterKnife.Setter<SwipeRefreshLayout, boolean[]> SET_REFRESHING;
 
+    public static final String POSITION_KEY = "exploreposition";
+    public static final String SORT_KEY = "sortkey";
+
     private static MovieListAdapter movieListAdapter;
     private static int position = 0;
+    private static int sort_by = 0;
     private boolean spinnerInit = false;
 
     private Context context;
@@ -71,6 +72,11 @@ public class ExploreFragment extends Fragment
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            position = savedInstanceState.getInt(POSITION_KEY);
+            sort_by = savedInstanceState.getInt(SORT_KEY);
+        }
+
         super.onCreate(savedInstanceState);
     }
 
@@ -78,10 +84,6 @@ public class ExploreFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         this.context = getActivity();
-
-        if (savedInstanceState != null) {
-            position = savedInstanceState.getInt(POSITION_KEY);
-        }
 
         View view = inflater.inflate(R.layout.fragment_explore, container, false);
 
@@ -138,14 +140,15 @@ public class ExploreFragment extends Fragment
 
         ButterKnife.apply(mSwipeRefreshLayout,SET_REFRESHING, new boolean[]{true, false});
         sortSpinner.setOnItemSelectedListener(this);
-        loadData();
 
-        // Inflate the layout for this fragment
+        if (sort_by == 0) {
+            loadData();
+        }
+
         return view;
     }
 
 
-    @Override
     public void sort(int which) {
         Preference.sortByIndex = which;
         loadData();
@@ -162,8 +165,11 @@ public class ExploreFragment extends Fragment
         if (movies != null) {
             ButterKnife.apply(mSwipeRefreshLayout,SET_VISIBILITY, new int[]{View.VISIBLE, View.INVISIBLE});
             movieListAdapter.setMovieData(movies);
-            movieListRV.scrollToPosition(position);
-            position = 0;
+
+            if ((sortSpinner.getSelectedItemPosition() == sort_by && sort_by > 0 && spinnerInit ) || (sort_by == 0)) {
+                movieListRV.scrollToPosition(position);
+                position = 0;
+            }
         } else {
             ButterKnife.apply(mSwipeRefreshLayout,SET_VISIBILITY, new int[]{View.INVISIBLE, View.VISIBLE});
         }
@@ -197,16 +203,7 @@ public class ExploreFragment extends Fragment
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putInt(POSITION_KEY,((GridLayoutManager)movieListRV.getLayoutManager()).findFirstVisibleItemPosition());
+        outState.putInt(SORT_KEY,sortSpinner.getSelectedItemPosition());
         super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
     }
 }

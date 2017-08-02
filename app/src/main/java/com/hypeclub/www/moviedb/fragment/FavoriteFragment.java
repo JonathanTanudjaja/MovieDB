@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -20,7 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hypeclub.www.moviedb.DetailActivity;
-import com.hypeclub.www.moviedb.data.FavoriteMovieDbHelper;
 import com.hypeclub.www.moviedb.R;
 import com.hypeclub.www.moviedb.adapter.MovieListAdapter;
 import com.hypeclub.www.moviedb.data.FavoriteMoviesContract;
@@ -45,9 +43,9 @@ public class FavoriteFragment extends Fragment
     private static MovieListAdapter movieListAdapter;
     private static int position = 0;
     private Context context;
-    private FavoriteMovieDbHelper favoriteMovieDbHelper;
 
     private static final int TASK_LOADER_ID = 1;
+    public static final String POSITION_KEY = "favoriteposition";
 
     public FavoriteFragment() {
         // Required empty public constructor
@@ -59,6 +57,9 @@ public class FavoriteFragment extends Fragment
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            position = savedInstanceState.getInt(POSITION_KEY);
+        }
         super.onCreate(savedInstanceState);
     }
 
@@ -66,6 +67,7 @@ public class FavoriteFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         this.context = getActivity();
+
         View view = inflater.inflate(R.layout.fragment_favorite, container, false);
 
         ButterKnife.bind(this, view);
@@ -83,12 +85,18 @@ public class FavoriteFragment extends Fragment
 
         movieListAdapter = new MovieListAdapter(this);
         favMovieRV.setAdapter(movieListAdapter);
-        favoriteMovieDbHelper = new FavoriteMovieDbHelper(context);
 
         getActivity().getSupportLoaderManager().initLoader(TASK_LOADER_ID, null, this);
 
         // Inflate the layout for this fragment
         return view;
+    }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt(POSITION_KEY,((GridLayoutManager)favMovieRV.getLayoutManager()).findFirstVisibleItemPosition());
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -123,7 +131,10 @@ public class FavoriteFragment extends Fragment
                     String projection[] = {
                             FavoriteMoviesContract.FavoriteMovieEntry.COLUMN_MOVIE_ID,
                             FavoriteMoviesContract.FavoriteMovieEntry.COLUMN_MOVIE_TITLE,
-                            FavoriteMoviesContract.FavoriteMovieEntry.COLUMN_MOVIE_POSTER_PATH
+                            FavoriteMoviesContract.FavoriteMovieEntry.COLUMN_MOVIE_POSTER_PATH,
+                            FavoriteMoviesContract.FavoriteMovieEntry.COLUMN_MOVIE_AVERAGE_VOTE,
+                            FavoriteMoviesContract.FavoriteMovieEntry.COLUMN_MOVIE_RELEASE_DATE,
+                            FavoriteMoviesContract.FavoriteMovieEntry.COLUMN_MOVIE_OVERVIEW
                     };
 
                     return getActivity().getContentResolver().query(
@@ -152,27 +163,38 @@ public class FavoriteFragment extends Fragment
 
         ArrayList<Movie> movies = new ArrayList<>();
 
-        if (data != null) {
-            while (data.moveToNext()) {
-                movies.add(new Movie(
-                        data.getString(0),
-                        data.getString(1),
-                        data.getString(2)
-                ));
-            }
+        final int indexId = data.getColumnIndex(FavoriteMoviesContract.FavoriteMovieEntry.COLUMN_MOVIE_ID);
+        final int indexTitle = data.getColumnIndex(FavoriteMoviesContract.FavoriteMovieEntry.COLUMN_MOVIE_TITLE);
+        final int indexPosterPath = data.getColumnIndex(FavoriteMoviesContract.FavoriteMovieEntry.COLUMN_MOVIE_POSTER_PATH);
+        final int indexVoteAvg = data.getColumnIndex(FavoriteMoviesContract.FavoriteMovieEntry.COLUMN_MOVIE_AVERAGE_VOTE);
+        final int indexReleaseDate = data.getColumnIndex(FavoriteMoviesContract.FavoriteMovieEntry.COLUMN_MOVIE_RELEASE_DATE);
+        final int indexOverview = data.getColumnIndex(FavoriteMoviesContract.FavoriteMovieEntry.COLUMN_MOVIE_OVERVIEW);
 
-            if (movies.size()>0) {
-                noFavMovieTV.setVisibility(View.INVISIBLE);
-                favMovieRV.setVisibility(View.VISIBLE);
-            } else {
-                noFavMovieTV.setVisibility(View.VISIBLE);
-                favMovieRV.setVisibility(View.INVISIBLE);
-            }
-
-            movieListAdapter.setMovieData(movies);
-
-            data.close();
+        while (data.moveToNext()) {
+            movies.add(new Movie(
+                    data.getString(indexId),
+                    data.getString(indexTitle),
+                    data.getString(indexPosterPath),
+                    data.getString(indexOverview),
+                    data.getString(indexVoteAvg),
+                    data.getString(indexReleaseDate)
+            ));
         }
+
+        if (!movies.isEmpty()) {
+            noFavMovieTV.setVisibility(View.INVISIBLE);
+            favMovieRV.setVisibility(View.VISIBLE);
+
+            favMovieRV.scrollToPosition(position);
+            position = 0;
+        } else {
+            noFavMovieTV.setVisibility(View.VISIBLE);
+            favMovieRV.setVisibility(View.INVISIBLE);
+        }
+
+        movieListAdapter.setMovieData(movies);
+
+        data.close();
     }
 
     @Override
